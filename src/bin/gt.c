@@ -26,7 +26,7 @@ main(int argc, char **argv)
 		return cmd_rm(--argc, ++argv);
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 static void
@@ -59,7 +59,7 @@ cmd_ls(int argc, char **argv)
 	if (a_flag != 0) puts("has a defined");
 	if (b_flag != 0) puts("has a defined");
 
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 static int
@@ -85,5 +85,5 @@ cmd_rm(int argc, char **argv)
 	if (a_flag != 0) puts("has a defined");
 	if (b_flag != 0) puts("has a defined");
 
-	return 0;
+	return EXIT_SUCCESS;
 }
