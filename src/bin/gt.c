@@ -16,13 +16,13 @@ main(int argc, char **argv)
 	}
 
 	if (strcmp(argv[1], "ls") == 0) {
-		puts("list");
+		puts("ls");
 		return cmd_ls(--argc, ++argv);
 	}
 
 
 	if (strcmp(argv[1], "rm") == 0) {
-		puts("delete");
+		puts("rm");
 		return cmd_rm(--argc, ++argv);
 	}
 
@@ -57,7 +57,7 @@ cmd_ls(int argc, char **argv)
 	}
 
 	if (a_flag != 0) puts("has a defined");
-	if (b_flag != 0) puts("has a defined");
+	if (b_flag != 0) puts("has b defined");
 
 	return EXIT_SUCCESS;
 }
@@ -83,7 +83,7 @@ cmd_rm(int argc, char **argv)
 	}
 
 	if (a_flag != 0) puts("has a defined");
-	if (b_flag != 0) puts("has a defined");
+	if (b_flag != 0) puts("has b defined");
 
 	return EXIT_SUCCESS;
 }
