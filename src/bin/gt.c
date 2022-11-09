@@ -2,11 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
-static int cmd_ls(int, char **);
-static int cmd_rm(int, char **);
-
-static void usage(void);
+#include "gt.h"
+#include "usage.h"
 
 int
 main(int argc, char **argv)
@@ -29,61 +26,3 @@ main(int argc, char **argv)
 	return EXIT_SUCCESS;
 }
 
-static void
-usage(void)
-{
-	(void)fprintf(stderr, "usage");
-	exit(EXIT_FAILURE);
-}
-
-static int
-cmd_ls(int argc, char **argv)
-{	
-	int a_flag = 0;
-	int b_flag = 0;
-	
-	int ch;
-	while((ch = getopt(argc, argv, "ab")) != -1) {
-		switch (ch) {
-		case 'a':
-			a_flag = 1;
-			break;
-		case 'b':
-			b_flag = 1;
-			break;
-		default:
-			usage();
-		}
-	}
-
-	if (a_flag != 0) puts("has a defined");
-	if (b_flag != 0) puts("has b defined");
-
-	return EXIT_SUCCESS;
-}
-
-static int
-cmd_rm(int argc, char **argv)
-{
-	int a_flag = 0;
-	int b_flag = 0;
-	
-	int ch;
-	while((ch = getopt(argc, argv, "ab")) != -1) {
-		switch (ch) {
-		case 'a':
-			a_flag = 1;
-			break;
-		case 'b':
-			b_flag = 1;
-			break;
-		default:
-			usage();
-		}
-	}
-
-	if (a_flag != 0) puts("has a defined");
-	if (b_flag != 0) puts("has b defined");
-
-	return EXIT_SUCCESS;
-}
