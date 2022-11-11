@@ -28,12 +28,15 @@ main(void)
 	}
 	
 	for (int i = 0; i < GT_WORKERS; i++) {
+		pid_t child_pid;
+		if ((child_pid = wait(&status)) == -1) {
+			perror("wait()");
+		}
+	
 		int status;
-		pid_t child = wait(&status);
-		
 		if (WIFEXITED(status)) {
 			int exit_status = WEXITSTATUS(status);
-			printf("worker %d exited with %d\n", child, exit_status); 
+			printf("worker %d exited with %d\n", child_pid, exit_status); 
 		}
 	}
 
