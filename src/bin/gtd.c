@@ -5,18 +5,25 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-#ifndef GT_WORKER
+#ifndef GT_WORKERS
 #define GT_WORKERS 4
 #endif
 
 int gt_worker(void);
+int gt_master(int);
 
 int
 main(void)
 {
-	pid_t pid[GT_WORKERS];
+	return gt_master(GT_WORKERS);
+}
 
-	for (int i = 0; i < GT_WORKERS; i++) {
+int
+gt_master(int workers)
+{
+	pid_t pid[workers];
+
+	for (int i = 0; i < workers; i++) {
 		if((pid[i] = fork()) == -1) {
 			perror("fork()");
 			fprintf(stderr, "Failed to create worker %d\n", i);
@@ -38,7 +45,7 @@ main(void)
 		}
 	}
 	
-	for (int i = 0; i < GT_WORKERS; i++) {
+	for (int i = 0; i < workers; i++) {
 		int status;
 		pid_t child_pid;
 		if ((child_pid = wait(&status)) == -1) {
