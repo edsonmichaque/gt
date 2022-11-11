@@ -2,32 +2,48 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <stdio.h>
+#include <sys/wait.h>
+
+#ifndef GT_WORKER
+#define GT_WORKERS 4
+#endif
+
+int gt_worker(void);
 
 int
 main(void)
 {
-	pid_t pid;
+	pid_t pid[GT_WORKERS];
 
-	if ((pid = fork()) == -1) {
-		perror("fork()");
+	for (int i = 0; i < GT_WORKERS; i++) {
+		if((pid[i] = fork()) == -1) {
+			perror("fork()");
+		}
+
+		if (pid[i] == 0) {
+			exit(gt_worker());
+		} else {
+			printf("started worker %d with pid: %d\n", i, pid[i]);
+		}
 	}
-
-	if (pid == 0) {
-		int status = worker();
+	
+	for (int i = 0; i < GT_WORKERS; i++) {
+		int status;
+		pid_t child = wait(&status);
 		
-		exit(status)
-	} else {
-		puts("master");
+		if (WIFEXITED(status)) {
+			int exit_status = WEXITSTATUS(status);
+			printf("worker %d exited with %d\n", child, exit_status); 
+		}
 	}
 
-	wait(NULL);
-
+	return EXIT_SUCCESS;
 }
 
 int
-worker(void)
+gt_worker(void)
 {
-	puts("worker");
-
-	exit(EXIT_SUCCESS);
+	puts("worker working");
+	sleep(10);
+	return EXIT_SUCCESS;
 }
